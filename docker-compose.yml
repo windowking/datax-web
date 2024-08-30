@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+  datax_web:
+    container_name: datax_web
+    image: windowking/datax-web:2.1.2
+    ports:
+      - 9527:9527
+    command: /opt/datax-web-2.1.2/bin/start-all.sh
+    volumes:
+      - ./export:/export
+    depends_on:
+      - datax_web_mysql
+
+  datax_web_mysql:
+    container_name: datax_web_mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'datax_web'
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
